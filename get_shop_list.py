@@ -70,7 +70,7 @@ def get_page_content(cate_id, uuid, page, token):
     content = content['data']['poiInfos']
     page_content = []
     for item in content:
-        page_content.append([count, item['poiId'], item['frontImg'], item['title'], item['avgScore'], item['allCommentNum'], item['address'], item['avgPrice']])
+        page_content.append([count, item['poiId'], str(cate_id), item['frontImg'], item['title'], item['avgScore'], item['allCommentNum'], item['address'], item['avgPrice']])
         count += 1
     return page_content
 
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     cate_ids = cateid_util.get_cate_ids()
     with open("data/shop_info.csv", "a", encoding="utf-8") as fw:
         writer = csv.writer(fw)
-        writer.writerow(['id', 'poiId', 'frontImg', 'title', 'avgScore', 'allCommentNum', 'address', 'avgPrice'])
+        writer.writerow(['id', 'poiId', 'cate_id', 'frontImg', 'title', 'avgScore', 'allCommentNum', 'address', 'avgPrice'])
         for cate_id in cate_ids[25:27]:
             uuid = "77bfc8{}14f44b05f.1583498542.1.0.0".format(random.randint(10000,99999))
             token = encode_token(cate_id, 1, uuid)
