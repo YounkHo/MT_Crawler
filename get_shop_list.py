@@ -34,7 +34,7 @@ def get_content(cate_id, uuid, token, page):
     s.keep_alive = False
     params = {
         'cityName': '绵阳',
-        'cateId': str(cate_id),
+        'cateId': str(cate_id)[1:],
         'areaId': 0,
         'sort': '',
         'dinnerCountAttrId': '',
@@ -79,7 +79,8 @@ if __name__ == "__main__":
     with open("data/shop_info.csv", "a", encoding="utf-8") as fw:
         writer = csv.writer(fw)
         writer.writerow(['id', 'poiId', 'cate_id', 'frontImg', 'title', 'avgScore', 'allCommentNum', 'address', 'avgPrice'])
-        for cate_id in cate_ids[25:27]:
+        for cate_id in cate_ids[20:27]:
+            # cate_id = 'c54'
             uuid = "77bfc8{}14f44b05f.1583498542.1.0.0".format(random.randint(10000,99999))
             token = encode_token(cate_id, 1, uuid)
             page_num = get_page_count(cate_id, uuid, token)
@@ -90,5 +91,6 @@ if __name__ == "__main__":
                     break
                 print("------------------------------现在开始获取：{} 类别的 {} 页------------------------------".format(cateid_util.get_cate_name_by_id(cate_id), str(page_idx)))
                 page_content = get_page_content(cate_id, uuid, page_idx, token)
+                # print(cate_id, page_num, page_content)
                 writer.writerows(page_content)
                 time.sleep(random.randint(0, 5))
